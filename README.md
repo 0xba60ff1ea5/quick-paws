@@ -8,7 +8,7 @@ Currently tested with:
 
 # Setup Steps
 From the top-level directory of this project:
-1. `sudo apt-get install python3-pip`
+1. ON LINUX: `sudo apt-get install python3-pip`
 2. `pip3 install -r requirements.txt`
 3. Fill out the fields in src/config/settings.json
 4. Run bake_cookies.py, follow the prompts to log
