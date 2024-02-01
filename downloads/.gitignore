@@ -1,6 +1,4 @@
 # Ignore everything in this directory...
 *
 # ...except these file.
-!clean_downloads.py
 !.gitignore
-!README
