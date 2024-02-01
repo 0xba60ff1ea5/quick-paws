@@ -4,9 +4,13 @@
 NOTE: Action items marked with TODO
 """
 
+import datetime
 import json
 import os
 import sys
+import time
+import wget
+
 from argparse import ArgumentParser
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -50,15 +54,27 @@ def main():
     session.get("https://www.furaffinity.net/")
     
     # Take actions based on user input
+    faves = []
+    images = []
+    files = []
     if FAVORITES:
-        faves = []
-        images = []
-        files = []
         furaffinity.favoritesList(user.favorites, faves, session)
         furaffinity.imagesList(faves, images, session)
         furaffinity.imageFiles(images, files, session)
 
+    # Create new download directory
+    d = datetime.date.today()
+    t = time.time()
+    directory = TOP + "downloads/" + str(d) + "-" + str(t)
+    os.mkdir(directory)
+
     # Download each file to the download directory
+    for link in files:
+        print(f"\n\nDownloading {link}...")
+        try:
+            f = wget.download(link, out=directory)
+        except Exception as e:
+            print(f"Exception encountered while downloading: {e}")
 
 if __name__ == "__main__":
     retval = main()
