@@ -2,6 +2,7 @@
 
 import json
 import os
+import subprocess
 import time
 from selenium import webdriver
 
@@ -21,6 +22,8 @@ def main():
     time.sleep(60)
 
     # Store cookies in .json file
+    cmd = "touch " + TOP + "src/config/cookies.json"
+    subprocess.run(cmd, shell=True)
     with open(TOP + 'src/config/cookies.json', 'w') as cookie_file:
         json.dump(session.get_cookies(), cookie_file)
 
