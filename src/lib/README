@@ -1,0 +1,17 @@
+// CollectionLib.py
+	// FavoritesLib.py
+	// GalleryLib.py
+	// ScrapsLib.py
+
+// Object inputs
+	- Username
+
+// getFavorites()
+// Inputs
+	- Username
+// Outputs
+	- List of Favorites
+
+// TO-DO
+1. Set up .gitignore
+	- __pycache__
