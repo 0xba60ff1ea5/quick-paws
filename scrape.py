@@ -65,7 +65,7 @@ def main():
     # Create new download directory
     d = datetime.date.today()
     t = time.time()
-    directory = TOP + "downloads/" + str(d) + "-" + str(t)
+    directory = TOP + "downloads/" + str(d) + "-" + str(t) + "-" + str(settings['username'])
     os.mkdir(directory)
 
     # Download each file to the download directory
