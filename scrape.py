@@ -54,12 +54,28 @@ def main():
     session.get("https://www.furaffinity.net/")
     
     # Take actions based on user input
-    faves = []
+    pages = []
     images = []
     files = []
     if FAVORITES:
-        furaffinity.favoritesList(user.favorites, faves, session)
-        furaffinity.imagesList(faves, images, session)
+        furaffinity.favoritesList(user.favorites, pages, session)
+        furaffinity.imagesList(pages, images, session)
+        furaffinity.imageFiles(images, files, session)
+
+    pages = []
+    images = []
+    files = []
+    if GALLERY:
+        furaffinity.favoritesList(user.gallery, pages, session)
+        furaffinity.imagesList(pages, images, session)
+        furaffinity.imageFiles(images, files, session)
+
+    pages = []
+    images = []
+    files = []
+    if SCRAPS:
+        furaffinity.favoritesList(user.scraps, pages, session)
+        furaffinity.imagesList(pages, images, session)
         furaffinity.imageFiles(images, files, session)
 
     # Create new download directory
