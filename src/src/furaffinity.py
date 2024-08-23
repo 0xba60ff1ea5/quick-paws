@@ -33,26 +33,6 @@ def imagesList(pages, images, session):
         for entry in gallery.find_all("figure"):
             drawing = entry.find("b").find("u").find("a")
             images.append("https://www.furaffinity.net" + drawing["href"])
-###################################################################################
-# def imageFiles(images, files, session):
-#     """
-#     Input : A list of all image URLs the user has favorited
-#     Output: A list of the image file URLs
-#     """
-#     for entry in images:
-#         session.get(entry)
-#         image = BeautifulSoup(session.page_source, "html.parser")
-#         if image == None:
-#             print("Found a None image")
-#         f = image.find("img", id="submissionImg") # This produces Nones
-#         if f == None:
-#             print("Found a None f")
-#         try:
-#             files.append("https:" + f["data-fullview-src"])
-#         except TypeError as e:
-#             print("Unable to add f, e =", e)
-#             print("f =", f)
-#     return files
 
 ###################################################################################
 def imageFiles(images, files, session):
