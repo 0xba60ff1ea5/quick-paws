@@ -48,6 +48,7 @@ def main():
     parser.add_argument('-c', '--cleanup', action='store_true', help='Removes everything in downloads/ except .gitignore (Ignores all other options)')
     parser.add_argument('-f', '--favorites', action='store_true', help='Download user\'s Favorites')
     parser.add_argument('-g', '--gallery', action='store_true', help='Download user\'s Gallery')
+    parser.add_argument('-nc', '--no_cookies', action='store_true', help='Download user\'s collection(s) without using cookies')
     parser.add_argument('-s', '--scraps', action='store_true', help='Download user\'s Scraps')
     args = parser.parse_args()
 
@@ -55,7 +56,7 @@ def main():
         # TODO: This will not work on a non-Linux OS, find a better way...
         cmd = f"""cd {TOP}/downloads && rm -rf $(ls -aI ".gitignore")"""
         subprocess.run(cmd, shell=True)
-        return
+        return 0
 
     with open(TOP + 'src/config/settings.json', 'r') as settings_file:
         settings = json.load(settings_file)
@@ -66,13 +67,18 @@ def main():
     options.add_argument("--headless")
     session = webdriver.Firefox(options=options)
     session.get("https://www.furaffinity.net/")
-    # TODO: Test without cookies
-    with open(TOP + 'src/config/cookies.json', 'r') as cookies_file:
-        cookies = json.load(cookies_file)
-    for cookie in cookies:
-        session.add_cookie(cookie)
-    # Need to get again after adding cookies
-    session.get("https://www.furaffinity.net/")
+    
+    if not args.no_cookies:
+        try:
+            with open(TOP + 'src/config/cookies.json', 'r') as cookies_file:
+                cookies = json.load(cookies_file)
+            for cookie in cookies:
+                session.add_cookie(cookie)
+            # Need to get again after adding cookies
+            session.get("https://www.furaffinity.net/")
+        except Exception as e:
+            print(f"ERROR: Cookies not loaded, use --no_cookies option or run bake_cookies.py to create them\n{e}")
+            return 1
 
     d = datetime.date.today()
     t = time.time()
@@ -88,5 +94,8 @@ def main():
     if args.scraps:
         do_collection("scraps", user, session, directory)
 
+    return 0
+
 if __name__ == "__main__":
-    main()
+    retval = main()
+    raise SystemExit(retval)
