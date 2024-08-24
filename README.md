@@ -12,18 +12,18 @@ Currently tested with:
 
 # Setup Steps
 From the top-level directory of this project:
-1. ON LINUX: `sudo apt-get install python3-pip`
+1. `sudo apt-get install python3-pip`
 2. `pip3 install -r requirements.txt`
 3. Fill out the fields in src/config/settings.json
-4. Run bake_cookies.py, follow the prompts to log
+4. Run bake_cookies.py, follow the prompts to log in
 
 # Usage
 Current options are cleanup, favorites, gallery, and scraps
 Examples:
-`python3 scrape.py --help`
-`./scrape.py --favorites`
-`python3 scrape.py --gallery --scraps`
-`./scrape.py -f -g -s`
+- `python3 scrape.py --help`
+- `./scrape.py --favorites`
+- `python3 scrape.py --gallery --scraps`
+- `./scrape.py -f -g -s`
 
 # Dev Team
 0xBA60FF1EA5 - Lead Developer
