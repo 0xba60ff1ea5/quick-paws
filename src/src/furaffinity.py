@@ -7,52 +7,45 @@ import json
 from bs4 import BeautifulSoup
 
 ###################################################################################
-def favoritesList(url, pages, session):
+def collection_pages(url, pages, session):
     """
-    Favorites collections are handled differently than Gallery or Scraps
-    Inupt : The current page of Favorites, and the List of Favorites
-    Output: A list of all items in the collection
+    Populate the pages list with each page of a given collection
     """
     pages.append(url)
     session.get(url)
     soup = BeautifulSoup(session.page_source, "html.parser")
-    for next in soup.find_all("a", class_="button standard right", href=True):
-        favoritesList("https://www.furaffinity.net" + next["href"], pages, session)
+    for next_button in soup.find_all("a", class_="button standard right", href=True):
+        pages.append(f"https://www.furaffinity.net{next_button['href']}")
 
 ###################################################################################
-def imagesList(pages, images, session):
+def image_list(pages, images, session):
     """
-    Input: List of all page URLs in Favorites, and a List for all of the image URLs
-    Output: A list of all image URLs the user has favorited
-    NOTE: Image URLs are not to be confused with image files
+    Populate the images list with each image on a given page
     """
-    for entry in pages:
-        session.get(entry)
-        page = BeautifulSoup(session.page_source, "html.parser")
-        gallery = page.find(class_="gallery-section")
-        for entry in gallery.find_all("figure"):
-            drawing = entry.find("b").find("u").find("a")
-            images.append("https://www.furaffinity.net" + drawing["href"])
+    for page in pages:
+        session.get(page)
+        soup = BeautifulSoup(session.page_source, "html.parser")
+        gallery = soup.find(class_="gallery-section")
+        for figure in gallery.find_all("figure"):
+            drawing_link = figure.find("b").find("u").find("a")
+            images.append(f"https://www.furaffinity.net{drawing_link['href']}")
 
 ###################################################################################
-def imageFiles(images, files, session):
+def image_files(images, files, session):
     """
-    Input : A list of all image URLs the user has favorited
-    Output: A list of the image file URLs
+    Populate the files list with the download link in a given image
     """
-    for entry in images:
-        session.get(entry)
-        image = BeautifulSoup(session.page_source, "html.parser")
-        if image == None:
-            print("Found a None image")
-        buttons = image.find_all("a", class_="button standard mobile-fix")
-        for button in buttons:
+    for image in images:
+        session.get(image)
+        soup = BeautifulSoup(session.page_source, "html.parser")
+        # The buttons that appear directly beneath an image
+        image_buttons = soup.find_all("a", class_="button standard mobile-fix")
+        for button in image_buttons:
             if "Download" in button.string:
                 try:
-                    files.append("https:" + button["href"])
+                    files.append(f"https:{button['href']}")
                 except TypeError as e:
-                    print("Unable to add f, e =", e)
-                    print("button = ", button)
+                    print(f"Unable to add f, e = {e}\nbutton = {button}")
                 break
     return files
 
