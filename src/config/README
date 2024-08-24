@@ -1,4 +1,6 @@
-settings.json fields:
+# Security Notice:
+Running the file bake_cookies.py will create the file cookies.json in this directory. This file contains your cookies to keep you logged into FurAffinity. This file has been added to the .gitignore file in this directory, so if you run `git add .` on the top-level directory, it will ignore this file. USE CAUTION if you make copies of cookies.json under a different name. You do not want this file to be published in any online repos. 
 
+# settings.json fields:
 - username: Enter the username of the collection that you'd like to scrape
 - 

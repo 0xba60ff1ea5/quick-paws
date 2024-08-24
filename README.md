@@ -18,7 +18,7 @@ From the top-level directory of this project:
 4. Run bake_cookies.py, follow the prompts to log
 
 # Usage
-Current options are favorites, gallery, and scraps
+Current options are cleanup, favorites, gallery, and scraps
 Examples:
 `python3 scrape.py --help`
 `./scrape.py --favorites`
