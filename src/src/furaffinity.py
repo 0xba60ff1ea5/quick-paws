@@ -15,7 +15,7 @@ def collection_pages(url, pages, session):
     session.get(url)
     soup = BeautifulSoup(session.page_source, "html.parser")
     for next_button in soup.find_all("a", class_="button standard right", href=True):
-        pages.append(f"https://www.furaffinity.net{next_button['href']}")
+        collection_pages(f"https://www.furaffinity.net{next_button['href']}", pages, session)
 
 ###################################################################################
 def image_list(pages, images, session):

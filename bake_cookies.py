@@ -22,9 +22,9 @@ def main():
     time.sleep(60)
 
     # Store cookies in .json file
-    cmd = "touch " + TOP + "src/config/cookies.json"
+    cmd = "touch " + TOP + "src/cookies/cookies.json"
     subprocess.run(cmd, shell=True)
-    with open(TOP + 'src/config/cookies.json', 'w') as cookie_file:
+    with open(TOP + 'src/cookies/cookies.json', 'w') as cookie_file:
         json.dump(session.get_cookies(), cookie_file)
 
 if __name__ == "__main__":
