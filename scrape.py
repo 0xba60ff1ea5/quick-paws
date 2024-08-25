@@ -31,6 +31,7 @@ def do_collection(collection, user, session, top_directory):
     images = []
     files = []
 
+    print(f"Parsing {collection} collection to start downloading, this could take a while...")
     furaffinity.collection_pages(getattr(user, collection), pages, session)
     furaffinity.image_list(pages, images, session)
     furaffinity.image_files(images, files, session)
@@ -70,7 +71,7 @@ def main():
     
     if not args.no_cookies:
         try:
-            with open(TOP + 'src/config/cookies.json', 'r') as cookies_file:
+            with open(TOP + 'src/cookies/cookies.json', 'r') as cookies_file:
                 cookies = json.load(cookies_file)
             for cookie in cookies:
                 session.add_cookie(cookie)
@@ -79,6 +80,8 @@ def main():
         except Exception as e:
             print(f"ERROR: Cookies not loaded, use --no_cookies option or run bake_cookies.py to create them\n{e}")
             return 1
+    else:
+        print("--no_cookies option selected, some drawings in collection(s) may be skipped for download...")
 
     d = datetime.date.today()
     t = time.time()
