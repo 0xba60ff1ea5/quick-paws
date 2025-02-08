@@ -71,8 +71,11 @@ def main():
     
     if not args.no_cookies:
         try:
-            with open(TOP + 'src/cookies/cookies.json', 'r') as cookies_file:
-                cookies = json.load(cookies_file)
+            with open(TOP + 'src/.cookies/cookie_key.bin', 'rb') as key_file:
+                key = key_file.read()
+            with open(TOP + 'src/.cookies/cookies.json', 'rb') as cookies_file:
+                cipher = AES.new(key, AES.MODE_EAX, nonce=nonce)
+                cookies = json.load(cipher.decrypt(cookies_file))
             for cookie in cookies:
                 session.add_cookie(cookie)
             # Need to get again after adding cookies
