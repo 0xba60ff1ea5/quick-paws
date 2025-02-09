@@ -14,8 +14,12 @@ def collection_pages(url, pages, session):
     pages.append(url)
     session.get(url)
     soup = BeautifulSoup(session.page_source, "html.parser")
-    for next_button in soup.find_all("a", class_="button standard right", href=True):
-        collection_pages(f"https://www.furaffinity.net{next_button['href']}", pages, session)
+    for button in soup.find_all("form"):
+        if button["action"].split("/")[-1] == "next":
+            page = f"https://www.furaffinity.net{button['action']}"
+            print(f"Matt: Adding page {page}")
+            collection_pages(page, pages, session)
+            break
 
 ###################################################################################
 def image_list(pages, images, session):
@@ -23,6 +27,7 @@ def image_list(pages, images, session):
     Populate the images list with each image on a given page
     """
     for page in pages:
+        print(f"Matt: Parsing page {page}")
         session.get(page)
         soup = BeautifulSoup(session.page_source, "html.parser")
         gallery = soup.find(class_="gallery-section")
@@ -35,7 +40,9 @@ def image_files(images, files, session):
     """
     Populate the files list with the download link in a given image
     """
+    # TODO: They're not images, they could be text files, sound files, etc.
     for image in images:
+        print(f"Matt: Parsing image {image}")
         session.get(image)
         soup = BeautifulSoup(session.page_source, "html.parser")
         # The buttons that appear directly beneath an image
