@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 NOTE: Action items marked with TODO
 """
@@ -55,6 +54,7 @@ def main():
 
     if args.cleanup:
         # TODO: This will not work on a non-Linux OS, find a better way...
+        # TODO: Add . and .. to ignore list
         cmd = f"""cd {TOP}/downloads && rm -rf $(ls -aI ".gitignore")"""
         subprocess.run(cmd, shell=True)
         return 0
@@ -63,6 +63,7 @@ def main():
         settings = json.load(settings_file)
 
     user = User(settings['username'])
+    verbose = settings['verbosity']
 
     options = Options()
     options.add_argument("--headless")
